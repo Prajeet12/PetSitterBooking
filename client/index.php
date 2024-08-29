@@ -1,3 +1,18 @@
+
+<?php
+
+include('../client/navbar_default.php');
+// Include your database configuration file to establish a connection
+include('../includes/config.php');
+
+// Fetch services from the database
+$query = "SELECT * FROM services";
+$services_result = $conn->query($query);
+
+if (!$services_result) {
+    die("Error fetching services: " . $conn->error);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,27 +23,15 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    
+    <style>
+
+
+    </style>
 
 </head>
 
 <body>
-    <!-- Navbar Start -->
-    <nav class="navbar">
-        <div class="navbar-brand">
-            <h1 class="logo"><i class="icon">🏠</i> PET SHOP</h1>
-        </div>
-        <div class="navbar-links">
-            <a href="#" class="nav-link active">Home</a>
-            <a href="aboutus.html" class="nav-link">About Us</a>
-            <a href="services.html" class="nav-link "> Our Services</a>
-
-
-            <a href="#" class="nav-link contact-btn">Contact Us</a>
-        </div>
-    </nav>
-    <!-- Navbar End -->
-
+    
     <!-- Hero Start -->
     <div class="hero-header">
         <div class="hero-content">
@@ -37,7 +40,7 @@
             <p>Dolore tempor clita lorem rebum kasd eirmod dolore diam eos kasd. Kasd clita ea justo est sed kasd erat
                 clita sea</p>
             <div class="hero-btn-container">
-                <a href="login.php" class="hero-btn">BOOK NOW</a>
+                <a href="../auth/login.php" class="hero-btn">BOOK NOW</a>
             </div>
         </div>
     </div>
@@ -62,12 +65,12 @@
                         lorem sit clita duo justo magna dolore</h4>
                     <div class="about-content">
                         <div class="tab-list">
-                            <button class="tablinks" onclick="openCity(event, 'London')"
-                                id="defaultOpen">London</button>
-                            <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+                            <button class="tablinks" onclick="openCity(event, 'Mission')"
+                                id="defaultOpen">Mission</button>
+                            <button class="tablinks" onclick="openCity(event, 'Vision')">Vision</button>
                         </div>
 
-                        <div id="London" class="tabcontent">
+                        <div id="Mission" class="tabcontent">
                             
                             <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et,
                                 tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore.
@@ -76,7 +79,7 @@
                                 aliquyam dolores dolore. Amet erat amet et magna</p>
                         </div>
 
-                        <div id="Paris" class="tabcontent">
+                        <div id="Vision" class="tabcontent">
                             
                             <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et,
                                 tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore.
@@ -112,7 +115,6 @@
         </div>
     </div>
 
-
     <!-- About End -->
 
      <!-- Services Section Start -->
@@ -120,59 +122,34 @@
         <div class="container">
             <div class="services-header">
                 <div class="about-text-wrapper">
-                <h2 class="services-subtitle"> Services</h2>
-                <h1 class="services-title">Our Excellent Pet Care Services</h1>
-            </div>
+                    <h2 class="services-subtitle">Services</h2>
+                    <h1 class="services-title">Our Excellent Pet Care Services</h1>
+                </div>
             </div>
             <div class="services-grid">
-                <div class="service-box">
+                <?php
+                $row_count = 0;
+                while ($service = $services_result->fetch_assoc()):
+                    $row_count++;
+                    $alignment_class = $row_count % 2 == 0 ? 'service-box-left' : 'service-box-right';
+                ?>
+                <div class="service-box <?php echo $alignment_class; ?>">
                     <div class="service-content">
                         <div class="service-icon">
-                            <img src="img/icon-board.png" alt="Pet Boarding Icon">
+                            <img src="../admin/uploads/<?php echo htmlspecialchars($service['image_url']); ?>"
+                                alt="<?php echo htmlspecialchars($service['service_name']); ?> Icon">
                         </div>
                         <div class="service-text">
-                            <h3 class="service-title">Pet Boarding</h3>
-                            <p class="service-description">Kasd dolor no lorem sit tempor at justo rebum rebun stet justo elitr dolor amet sit</p>
-                            <a href="#" class="read-more">Read More →</a>
+                            <h3 class="service-title"><?php echo htmlspecialchars($service['service_name']); ?></h3>
+                            <p class="service-description"><?php echo htmlspecialchars($service['description']); ?></p>
+                            <p>Price: $<?php echo htmlspecialchars(number_format($service['price'], 2)); ?></p>
+                            <p>Duration: <?php echo htmlspecialchars($service['duration']); ?> minutes</p>
+                            <a href="book_service.php?service_id=<?php echo $service['id']; ?>" class="book-now">Book
+                                Now</a>
                         </div>
                     </div>
                 </div>
-                <div class="service-box">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <img src="img/icon-board.png" alt="Pet Feeding Icon">
-                        </div>
-                        <div class="service-text">
-                            <h3 class="service-title">Pet Feeding</h3>
-                            <p class="service-description">Kasd dolor no lorem sit tempor at justo rebum rebun stet justo elitr dolor amet sit</p>
-                            <a href="#" class="read-more">Read More →</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-box">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <img src="img/icon-board.png" alt="Pet Grooming Icon">
-                        </div>
-                        <div class="service-text">
-                            <h3 class="service-title">Pet Grooming</h3>
-                            <p class="service-description">Kasd dolor no lorem sit tempor at justo rebum rebun stet justo elitr dolor amet sit</p>
-                            <a href="#" class="read-more">Read More →</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="service-box">
-                    <div class="service-content">
-                        <div class="service-icon">
-                            <img src="img/icon-board.png" alt="Pet Training Icon">
-                        </div>
-                        <div class="service-text">
-                            <h3 class="service-title">Pet Training</h3>
-                            <p class="service-description">Kasd dolor no lorem sit tempor at justo rebum rebun stet justo elitr dolor amet sit</p>
-                            <a href="#" class="read-more">Read More →</a>
-                        </div>
-                    </div>
-                </div>
+                <?php endwhile; ?>
             </div>
         </div>
     </section>
@@ -211,8 +188,6 @@
                         <li><a href="#">Home</a></li>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Our Services</a></li>
-                        <li><a href="#">Meet The Team</a></li>
-                        <li><a href="#">Latest Blog</a></li>
                         <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
@@ -241,6 +216,5 @@
     <!-- Footer Section End -->
 
 </body>
-
 
 </html>

@@ -4,6 +4,6 @@ session_unset(); // Unset all session variables
 session_destroy(); // Destroy the session
 
 // Redirect to login page
-header("Location: ../auth/login.php");
+header("Location: ../client/index.php");
 exit();
 ?>

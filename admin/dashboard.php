@@ -1,8 +1,6 @@
 <?php
 // dashboard.php
 
-
-
 include('../includes/config.php');   // Database connection
 
 ?>
@@ -29,7 +27,7 @@ include('../includes/config.php');   // Database connection
                     <p>
                         <?php
                         // Example query to count users
-                        $result = $conn->query("SELECT COUNT(*) as total_users FROM users");
+                        $result = $conn->query("SELECT COUNT(*) as total_users FROM customers");
                         $row = $result->fetch_assoc();
                         echo $row['total_users'];
                         ?>

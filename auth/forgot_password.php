@@ -61,42 +61,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .login-container {
-            width: 300px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .message {
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .success {
-            background-color: #4caf50;
-            color: #fff;
-        }
-        .error {
-            background-color: #f44336;
-            color: #fff;
-        }
+    .login-container {
+        width: 300px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .message {
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .success {
+        background-color: #4caf50;
+        color: #fff;
+    }
+
+    .error {
+        background-color: #f44336;
+        color: #fff;
+    }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <h2>Password Recovery</h2>
         <?php if ($message): ?>
-            <div class="message <?php echo strpos($message, 'could not be sent') !== false ? 'error' : 'success'; ?>">
-                <?php echo $message; ?>
-            </div>
+        <div class="message <?php echo strpos($message, 'could not be sent') !== false ? 'error' : 'success'; ?>">
+            <?php echo $message; ?>
+        </div>
         <?php endif; ?>
         <form action="forgot_password.php" method="post">
             <label for="email">Enter your email address:</label>
@@ -106,4 +111,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p><a href="login.php">Back to Login</a></p>
     </div>
 </body>
+
 </html>

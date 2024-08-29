@@ -6,63 +6,87 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$login_error = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['csrf_token']) && validate_csrf_token($_POST['csrf_token'])) {
-        $email = trim(htmlspecialchars($_POST['email'])); // Updated to 'email'
+        $email = trim(htmlspecialchars($_POST['email']));
         $password = $_POST['password'];
 
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email=?"); // Updated to query by 'email'
+        // Query the customers table to include role
+        $stmt = $conn->prepare("SELECT * FROM customers WHERE email=?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        $user = $result->fetch_assoc();
+        $customer = $result->fetch_assoc();
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['email'] = $user['email']; // Store email in session
-            $_SESSION['role'] = $user['role'];   // Store role in session
-            session_regenerate_id(); // Regenerate session ID for security
+        if ($customer && password_verify($password, $customer['password'])) {
+            // Store relevant customer data in session
+            $_SESSION['customer_id'] = $customer['id'];
+            $_SESSION['customer_name'] = $customer['name'];
+            $_SESSION['customer_email'] = $customer['email'];
+            $_SESSION['customer_role'] = $customer['role']; // Store role in session
+            session_regenerate_id();
 
-            // Redirect based on role
-            if ($user['role'] === 'admin') {
+            // Redirect based on user role
+            if ($customer['role'] === 'admin') {
                 header("Location: ../admin/dashboard.php");
+            } else {
+                header("Location: ../dashboard/profile.php");
             }
-             else {
-                header("Location: ../dashboard/user_profile.php");
-            }
-            exit(); // Ensure no further code is executed
+            exit();
         } else {
-            echo "Invalid email or password."; // Updated error message
-        } 
+            $login_error = "Invalid email or password.";
+        }
         $stmt->close();
     } else {
         die("CSRF token validation failed.");
     }
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../client/styles.css">
 </head>
+<style>
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+</style>
 <body>
     <div class="login-container">
         <h2>Log In</h2>
+        <!-- Conditionally display the error message -->
+        <?php if (!empty($login_error)) : ?>
+            <div class="error-message">
+                <?php echo htmlspecialchars($login_error); ?>
+            </div>
+        <?php endif; ?>
         <form action="login.php" method="post">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
-    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
-    <button type="submit">Log In</button>
-</form>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
+            <button type="submit">Log In</button>
+        </form>
         <p><a href="forgot_password.php">Forgot Password?</a></p>
         <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
     </div>
 </body>
 </html>
+
+
+
+

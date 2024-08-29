@@ -1,9 +1,47 @@
+/* General Styling */
 body, html {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  
 }
 
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+
+p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+}
+
+strong {
+    color: #ffffff;
+}
+
+a {
+    display: inline-block;
+    
+    font-size: 16px;
+  
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    
+}
+
+a:hover {
+    background-color: #ffffff;
+    color: #2e9101;
+}
+
+/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -54,6 +92,7 @@ body, html {
     border-radius: 5px;
 }
 
+/* Dropdowns */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -85,11 +124,47 @@ body, html {
     display: block;
 }
 
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-icon {
+    font-size: 24px;
+}
+
+.profile-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 160px;
+    z-index: 1000;
+}
+
+.profile-dropdown-content a {
+    color: #000;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.profile-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.profile-dropdown:hover .profile-dropdown-content {
+    display: block;
+}
+
+/* Hero Header */
 .hero-header {
-    background: url('../img/hero.jpg') center no-repeat;
+    background: url('../client/img/hero.jpg') center no-repeat;
     background-size: cover;
     height: 750px;
-    
     display: flex;
     justify-content: left;
     align-items: center;
@@ -105,7 +180,7 @@ body, html {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.164);
+    background: rgba(0, 0, 0, 0.164)
 }
 
 .hero-content {
@@ -119,7 +194,6 @@ body, html {
     text-align: left;
     margin-bottom: 20px;
     color: #7AB730;
-
 }
 
 .hero-content h2 {
@@ -127,7 +201,8 @@ body, html {
     margin-left: 40px;
     text-align: left;
     margin-bottom: 20px;
-    margin-top: 0px;
+    margin-top: 0;
+    color: white;
 }
 
 .hero-content p {
@@ -135,16 +210,15 @@ body, html {
     margin-left: 40px;
     max-width: 600px;
     margin-bottom: 20px;
-    margin-top: 0px;
+    margin-top: 0;
     text-align: left;
+    color: white;
 }
 
-
 .hero-btn-container {
-    text-align: left; /* Align the button to the left */
+    text-align: left;
     margin-bottom: 20px;
-    margin-top: 0px;
-    
+    margin-top: 0;
 }
 
 .hero-btn {
@@ -165,7 +239,7 @@ body, html {
     border-color: #fff;
 }
 
-/* About Section Styles */
+/* About Section */
 .about-section {
     padding: 50px 0;
     background-color: #f8f9fa;
@@ -200,18 +274,16 @@ body, html {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    
 }
 
 .about-text-wrapper {
-    border-left: 5px solid#7AB730;
+    border-left: 5px solid #7AB730;
     padding-left: 20px;
     margin-bottom: 30px;
-    
 }
 
 .about-subtitle {
-    color:#7AB730;
+    color: #7AB730;
     text-transform: uppercase;
     margin-bottom: 10px;
 }
@@ -233,85 +305,18 @@ body, html {
     padding: 20px;
     border-radius: 4px;
     line-height: 1.5;
-    
-   
-}
-
-.tab-list {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    list-style: none;
-    padding: 0;
-}
-
-.tablinks {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    background-color: #f8f9fa;
-    border: 2px solid #7AB730;
-    margin-right: 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.tab-item:last-child {
-    margin-right: 0;
-}
-
-.tablinks.active,
-.tablinks:hover {
-    background-color: #7AB730;
-    color: #fff;
-}
-
-.tabcontent {
-    display: none;
-}
-
-.tabcontent.active {
-    display: block;
-}
-
-.tab-pane {
-    display: none;
-}
-
-.tab-pane.active {
-    display: block;
-}
-
-p {
-    margin: 0;
-}
-
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 10px 0;
 }
 
 /* Services Section */
 .services-section {
-    text-align: left; /* Align to the left */
+    text-align: left;
+    padding: 40px 20px;
+    background-color: #e7e7e7c5;
 }
 
 .services-header {
     margin-bottom: 40px;
-    position: relative; /* Make the container relative */
+    position: relative;
 }
 
 .services-subtitle {
@@ -321,7 +326,7 @@ body {
     text-transform: uppercase;
     margin-bottom: 10px;
     position: relative;
-    padding-left: 20px; /* Add padding for the line */
+    padding-left: 20px;
 }
 
 .services-subtitle .line {
@@ -331,7 +336,7 @@ body {
     top: 50%;
     width: 3px;
     height: 100%;
-    background-color: #76b852; /* Color of the line */
+    background-color: #76b852;
     transform: translateY(-50%);
 }
 
@@ -340,7 +345,7 @@ body {
     font-weight: bold;
     color: #333;
     margin-bottom: 0;
-    padding-left: 20px; /* Align with the line */
+    padding-left: 20px;
 }
 
 .services-grid {
@@ -368,8 +373,8 @@ body {
 }
 
 .service-icon img {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
 }
 
 .service-text {
@@ -390,7 +395,7 @@ body {
 }
 
 .read-more {
-    color: #76b852;
+    color: #7AB730;
     font-weight: bold;
     text-decoration: none;
 }
@@ -398,24 +403,108 @@ body {
 .read-more:hover {
     text-decoration: underline;
 }
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+/* Same CSS as provided before, with the login container styles */
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
 
-    .service-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .service-icon {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
 }
 
+/* Add to your CSS file */
+.error-message {
+    color: #d9534f; /* Red color for errors */
+    background-color: #f2dede; /* Light red background */
+    border: 1px solid #d9534f; /* Red border */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 70px;
+    border: none;
+    background-color: #7AB730;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #7AB730;
+}
+
+p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* Book Now Button */
+.book-now {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #7AB730;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.book-now:hover {
+    background-color: #7AB730;
+}
 
 /* Footer Section */
 .footer-section {
@@ -450,7 +539,7 @@ body {
     top: 50%;
     width: 3px;
     height: 100%;
-    background-color: #76b852; /* Color of the line */
+    background-color: #7AB730;
     transform: translateY(-50%);
 }
 
@@ -458,7 +547,6 @@ body {
     list-style-type: none;
     padding: 0;
     margin-top: 20px;
-    
 }
 
 .contact-info li {
@@ -478,7 +566,7 @@ body {
 }
 
 .footer-links li a {
-    color: #76b852;
+    color: #7AB730;
     text-decoration: none;
 }
 
@@ -502,7 +590,7 @@ body {
 
 .newsletter-form button {
     padding: 10px 20px;
-    background-color: #76b852;
+    background-color: #7AB730;
     border: none;
     color: #fff;
     font-weight: bold;
@@ -513,25 +601,23 @@ body {
 .social-links {
     display: flex;
     gap: 10px;
-    
 }
 
 .social-links a {
-    color: #76b852;
+    color: #7AB730;
     font-size: 18px;
     text-decoration: none;
-    border: 1px solid #76b852;
+    border: 1px solid #7AB730;
     padding: 10px;
     border-radius: 50%;
     display: inline-block;
 }
 
 .social-links a:hover {
-    background-color: #76b852;
+    background-color: #7AB730;
     color: #fff;
 }
 
-/* Footer Bottom */
 .footer-bottom {
     text-align: center;
     padding-top: 20px;
@@ -542,6 +628,20 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .service-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
     .footer-columns {
         grid-template-columns: 1fr;
     }

@@ -6,10 +6,40 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if user is logged in and is an admin
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../login.php"); // Redirect to login page if not an admin
-    exit();
+// // Check if user is logged in and is an admin
+// if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
+//     header("Location: ../admin/manage-services.php"); // Redirect to login page if not an admin
+//     exit();
+// }
+
+$service_name = '';
+$service_description = '';
+$service_price = '';
+$service_duration = '';
+$service_id = '';
+$image_url = '';
+
+// Fetch the service data if we are editing
+if (isset($_GET['edit_id'])) {
+    $edit_id = intval($_GET['edit_id']);
+    $stmt = $conn->prepare("SELECT * FROM services WHERE id = ?");
+    $stmt->bind_param("i", $edit_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $service = $result->fetch_assoc();
+
+    if ($service) {
+        $service_name = $service['service_name'];
+        $service_description = $service['description'];
+        $service_price = $service['price'];
+        $service_duration = $service['duration'];
+        $service_id = $service['id'];
+        $image_url = $service['image_url'];
+    } else {
+        $message = "Service not found.";
+    }
+
+    $stmt->close();
 }
 
 // Handle form submissions for adding or updating services
@@ -17,15 +47,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['csrf_token']) && validate_csrf_token($_POST['csrf_token'])) {
         $service_name = trim(htmlspecialchars($_POST['service_name']));
         $service_description = trim(htmlspecialchars($_POST['service_description']));
+        $service_price = trim(htmlspecialchars($_POST['service_price']));
+        $service_duration = trim(htmlspecialchars($_POST['service_duration']));
         $service_id = isset($_POST['service_id']) ? intval($_POST['service_id']) : null;
-        $image_url = '';
 
         // Handle image upload
-        if (isset($_FILES['service_image']) && $_FILES['service_image']['error'] === UPLOAD_ERR_OK) {
-            $upload_dir = '../uploads/';
-            $upload_file = $upload_dir . basename($_FILES['service_image']['name']);
-            if (move_uploaded_file($_FILES['service_image']['tmp_name'], $upload_file)) {
-                $image_url = htmlspecialchars(basename($_FILES['service_image']['name']));
+        if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
+            $upload_dir = '../admin/uploads/';
+            $upload_file = $upload_dir . basename($_FILES['image_url']['name']);
+            if (move_uploaded_file($_FILES['image_url']['tmp_name'], $upload_file)) {
+                $image_url = htmlspecialchars(basename($_FILES['image_url']['name']));
             } else {
                 $message = "Error uploading image.";
             }
@@ -33,16 +64,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($service_id) {
             // Update existing service
-            $stmt = $conn->prepare("UPDATE services SET name=?, description=?, image_url=? WHERE id=?");
-            $stmt->bind_param("sssi", $service_name, $service_description, $image_url, $service_id);
+            $stmt = $conn->prepare("UPDATE services SET service_name=?, description=?, price=?, duration=?, image_url=? WHERE id=?");
+            $stmt->bind_param("sssssi", $service_name, $service_description, $service_price, $service_duration, $image_url, $service_id);
         } else {
             // Add new service
-            $stmt = $conn->prepare("INSERT INTO services (name, description, image_url) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $service_name, $service_description, $image_url);
+            $stmt = $conn->prepare("INSERT INTO services (service_name, description, price, duration, image_url) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $service_name, $service_description, $service_price, $service_duration, $image_url);
         }
-
+        
         if ($stmt->execute()) {
             $message = "Service updated successfully!";
+            $success = true;
         } else {
             $message = "Error updating service.";
         }
@@ -74,239 +106,109 @@ $services_result = $conn->query("SELECT * FROM services");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Services</title>
     <link rel="stylesheet" href="../admin/styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin-left: 30px;
-            padding: 0;
-            display: flex;
-        }
-
-        .admin-container {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
-
-        .sidebar {
-            width: 250px;
-            background-color: #333;
-            color: #fff;
-            padding: 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin: 20px 0;
-        }
-
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            background-color: #444;
-            border-radius: 4px;
-        }
-
-        .sidebar ul li a:hover {
-            background-color: #555;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            width: calc(100% - 250px);
-            background-color: #fff;
-        }
-
-        form {
-            margin-bottom: 20px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .message-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .success {
-            color: green;
-        }
-
-        .btn {
-            padding: 5px 10px;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .btn-edit {
-            background-color: #007bff;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-        }
-
-        .btn-edit:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-
-        .service-image {
-            max-width: 150px;
-            height: auto;
-        }
-    </style>
 </head>
+
 <body>
-    <div class="admin-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <h2>Admin Menu</h2>
-            <ul>
-                <li><a href="dashboard.php">Dashboard</a></li>
-                <li><a href="manage-services.php">Manage Services</a></li>
-                <li><a href="manage-customers.php">Manage Customers</a></li>
-                <li><a href="feedback.php">Feedback</a></li>
-                <li><a href="../logout.php">Logout</a></li>
-            </ul>
+<div class="admin-container">
+<?php include('sidebar.php'); ?>
+<main class="main-content">
+    <h2>Manage Services</h2>
+    
+    <!-- Display success or error message -->
+    <?php if (isset($message)): ?>
+        <div class="message-box <?= strpos($message, 'Error') !== false ? 'error' : 'success'; ?>">
+            <?= htmlspecialchars($message); ?>
         </div>
+    <?php endif; ?>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <h2>Manage Services</h2>
+    <!-- Form to add or update a service -->
+    <form action="manage-services.php" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
+        <input type="hidden" name="service_id" id="service_id" value="<?php echo htmlspecialchars($service_id); ?>">
 
-            <!-- Display success or error message -->
-            <?php if (isset($message)): ?>
-                <div class="message-box <?= strpos($message, 'Error') !== false ? 'error' : 'success'; ?>">
-                    <?= htmlspecialchars($message); ?>
-                </div>
-            <?php endif; ?>
+        <label for="service_name">Service Name:</label>
+        <input type="text" id="service_name" name="service_name" value="<?php echo htmlspecialchars($service_name); ?>" required>
+        <br><br>
 
-            <!-- Form to add or update a service -->
-            <form action="manage-services.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
-                <input type="hidden" name="service_id" id="service_id" value="">
-                <label for="service_name">Service Name:</label>
-                <input type="text" id="service_name" name="service_name" required>
-                <br><br>
-                <label for="service_description">Service Description:</label>
-                <textarea id="service_description" name="service_description" rows="4" required></textarea>
-                <br><br>
-                <label for="service_image">Service Image:</label>
-                <input type="file" id="service_image" name="service_image">
-                <br><br>
-                <button type="submit" class="btn btn-edit">Save Service</button>
-            </form>
+        <label for="service_description">Service Description:</label>
+        <textarea id="service_description" name="service_description" rows="4" required><?php echo htmlspecialchars($service_description); ?></textarea>
+        <br><br>
 
-            <!-- Table displaying services -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($service = $services_result->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($service['id']); ?></td>
-                            <td><?php echo htmlspecialchars($service['name']); ?></td>
-                            <td><?php echo htmlspecialchars($service['description']); ?></td>
-                            <td>
-                                <?php if ($service['image_url']): ?>
-                                    <img src="../uploads/<?php echo htmlspecialchars($service['image_url']); ?>" alt="Service Image" class="service-image">
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <a href="manage-services.php?edit_id=<?php echo htmlspecialchars($service['id']); ?>" class="btn btn-edit">Edit</a>
-                                <a href="manage-services.php?delete_id=<?php echo htmlspecialchars($service['id']); ?>" class="btn btn-delete">Delete</a>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+        <label for="service_price">Service Price:</label>
+        <input type="text" id="service_price" name="service_price" value="<?php echo htmlspecialchars($service_price); ?>" required>
+        <br><br>
 
-            <script>
-                // Script to populate the form with data for editing
-                <?php if (isset($_GET['edit_id'])): ?>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        var serviceId = <?php echo intval($_GET['edit_id']); ?>;
-                        var form = document.querySelector('form');
-                        form.querySelector('#service_id').value = serviceId;
-                        
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('GET', 'get_service.php?id=' + serviceId, true);
-                        xhr.onload = function() {
-                            if (xhr.status === 200) {
-                                var service = JSON.parse(xhr.responseText);
-                                form.querySelector('#service_name').value = service.name;
-                                form.querySelector('#service_description').value = service.description;
-                                // Handling image display
-                                if (service.image_url) {
-                                    document.querySelector('#service_image').value = ''; // File input can't be set directly; handle this differently if needed
-                                }
-                            }
-                        };
-                        xhr.send();
-                    });
-                <?php endif; ?>
-            </script>
-        </div>
-    </div>
+        <label for="service_duration">Service Duration (in minutes):</label>
+        <input type="text" id="service_duration" name="service_duration" value="<?php echo htmlspecialchars($service_duration); ?>" required>
+        <br><br>
+
+        <label for="image_url">Service Image:</label>
+        <input type="file" id="image_url" name="image_url">
+        <br><br>
+
+        <button type="submit" class="btn btn-edit">Save Service</button>
+    </form>
+
+    <!-- Table displaying services -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Duration</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($service = $services_result->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($service['id']); ?></td>
+                    <td><?php echo htmlspecialchars($service['service_name']); ?></td>
+                    <td><?php echo htmlspecialchars($service['description']); ?></td>
+                    <td><?php echo htmlspecialchars($service['price']); ?></td>
+                    <td><?php echo htmlspecialchars($service['duration']); ?></td>
+                    <td>
+                        <?php if ($service['image_url']): ?>
+                            <img style="height:50px" src="../admin/uploads/<?php echo htmlspecialchars($service['image_url']); ?>" alt="Service Image" class="service-image">
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <a href="manage-services.php?edit_id=<?php echo htmlspecialchars($service['id']); ?>" class="btn btn-edit">Edit</a>
+                        <a href="manage-services.php?delete_id=<?php echo htmlspecialchars($service['id']); ?>" class="btn btn-delete">Delete</a>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+    </main>
+    <div>
+   
+
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Populate the form with service data for editing
+        <?php if (isset($_GET['edit_id'])): ?>
+            var service = <?php echo json_encode($service); ?>;
+            document.querySelector('#service_id').value = service.id;
+            document.querySelector('#service_name').value = service.name;
+            document.querySelector('#service_description').value = service.description;
+            document.querySelector('#service_price').value = service.price;
+            document.querySelector('#service_duration').value = service.duration;
+        <?php endif; ?>
+
+        // Clear form fields after a successful operation
+        <?php if ($success): ?>
+            document.querySelector('#service_id').value = '';
+            document.querySelector('#service_name').value = '';
+            document.querySelector('#service_description').value = '';
+            document.querySelector('#service_price').value = '';
+            document.querySelector('#service_duration').value = '';
+            document.querySelector('#image_url').value = '';
+        <?php endif; ?>
+    });
+</script>
 </html>
