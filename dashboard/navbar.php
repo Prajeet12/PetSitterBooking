@@ -16,7 +16,7 @@
 }
 
 nav {
-    background-color: #7AB730;
+    background-color: #218838;
     
     color: white;
     padding: 20px ;
@@ -66,8 +66,18 @@ nav {
     display: block;
 }
 
+.profile-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
 
+.profile-dropdown:hover .profile-dropdown-content {
+    display: block;
+}
 
+.profile-dropdown:hover .nav-link {
+    background-color: #575757;
+    border-radius: 5px;
+}
 
 .dashboard-container {
     margin: 50px;
