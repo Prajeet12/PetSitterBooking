@@ -50,7 +50,7 @@ include('../includes/config.php');
                                 aliquyam dolores dolore. Amet erat amet et magna</p>
                         </div>
 
-                        <div id="Paris" class="tabcontent">
+                        <div id="Vision" class="tabcontent">
 
                             <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et,
                                 tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore.

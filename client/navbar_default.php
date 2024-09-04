@@ -13,17 +13,25 @@ if (session_status() === PHP_SESSION_NONE) {
         <a href="index.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">Home</a>
         <a href="aboutus.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'aboutus.php' ? 'active' : ''; ?>">About Us</a>
         <a href="services.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'services.php' ? 'active' : ''; ?>">Our Services</a>
-        <a href="#" class="nav-link contact-btn">Contact Us</a>
-
+        <a href="contactus.php" class="nav-link contact-btn">Contact Us</a>
+      
         <?php if (isset($_SESSION['customer_id'])): ?>
+           
             <!-- Profile Icon and Dropdown Start -->
             <div class="profile-dropdown">
-                <a href="#" class="nav-link profile-icon"><i class="icon">👤</i></a>
-                <div class="profile-dropdown-content">
-                    <a href="../dashboard/profile.php">View Profile</a>
-                    <a href="../auth/logout.php">Logout</a>
-                </div>
-            </div>
+    <a href="#" class="nav-link profile-icon">
+        <?php if (isset($_SESSION['customer_id']) && !empty($_SESSION['profile_picture'])): ?>
+            <?php echo $_SESSION['profile_picture']; ?>
+            <img src="../admin/uploads<?php echo htmlspecialchars($_SESSION['profile_picture']); ?>" alt="Profile Picture" class="profile-pic">
+        <?php else: ?>
+            <i class="icon">👤</i> <!-- Default icon if no profile picture is set -->
+        <?php endif; ?>
+    </a>
+    <div class="profile-dropdown-content">
+        <a href="../dashboard/profile.php">View Profile</a>
+        <a href="../auth/logout.php">Logout</a>
+    </div>
+</div>
             <!-- Profile Icon and Dropdown End -->
         <?php else: ?>
             <!-- Login Button -->

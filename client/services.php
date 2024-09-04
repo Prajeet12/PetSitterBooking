@@ -41,6 +41,10 @@ if (!$services_result) {
 .book-now:hover {
     background-color: #669940;
 }
+p {
+    text-align: left;
+    margin-top: 10px;
+}
 </style>
 
 <body>

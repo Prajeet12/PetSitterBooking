@@ -327,6 +327,7 @@ a:hover {
     margin-bottom: 10px;
     position: relative;
     padding-left: 20px;
+    text-align: left;
 }
 
 .services-subtitle .line {
@@ -476,7 +477,7 @@ button:hover {
 }
 
 p {
-    text-align: center;
+    text-align: left;
     margin-top: 10px;
 }
 
@@ -646,3 +647,4 @@ a:hover {
         grid-template-columns: 1fr;
     }
 }
+

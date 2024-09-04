@@ -115,7 +115,7 @@ nav {
             <div class="profile-dropdown">
                 <a href="#" class="nav-link">Profile</a>
                 <div class="profile-dropdown-content">
-                    <a href="../dashboard/profile.php">View Profile</a>
+                    <a href="../dashboard/update_profile.php">View Profile</a>
                     <a href="../auth/logout.php">Logout</a>
                 </div>
             </div>

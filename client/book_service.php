@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Bind parameters: 
     // 'i' for integer (service_id), 
     // 's' for string (service_name, customer_name, customer_email, customer_phone, booking_date, booking_time)
-    $stmt->bind_param("iissssss", $service_id, $service_name, $customer_id, $customer_name, $customer_email, $customer_phone, $booking_date, $booking_time);
+    $stmt->bind_param("isisssss", $service_id, $service_name, $customer_id, $customer_name, $customer_email, $customer_phone, $booking_date, $booking_time);
 
     if ($stmt->execute()) {
         // Redirect to thank you page with booking details
@@ -164,10 +164,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form action="book_service.php" method="POST" onsubmit="disableSubmitButton()">
             <input type="hidden" name="service_id" value="<?php echo $service_id; ?>">
             <label for="customer_name">Name:</label>
-            <input type="text" name="customer_name" id="customer_name" required>
+            <input type="text" name="customer_name" id="customer_name" value="<?php echo htmlspecialchars($_SESSION['customer_name']); ?>" required>
             
             <label for="customer_email">Email:</label>
-            <input type="email" name="customer_email" id="customer_email" required>
+            <input type="email" name="customer_email" id="customer_email" value="<?php echo htmlspecialchars($_SESSION['customer_email']); ?>" required>
             
             <label for="customer_phone">Phone:</label>
             <input type="text" name="customer_phone" id="customer_phone" required>
@@ -189,6 +189,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         function disableSubmitButton() {
             document.getElementById('submitBtn').disabled = true;
         }
+        
+        // Prevent users from modifying the email field
+        document.getElementById('customer_email').addEventListener('focus', function() {
+            alert("You cannot change the email address.");
+            this.blur();
+        });
+
+        // Disable the submit button after form submission to prevent duplicate submissions
+        function disableSubmitButton() {
+            document.getElementById('submitBtn').disabled = true;
+        }
+    
     </script>
 </body>
 </html>

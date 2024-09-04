@@ -6,6 +6,6 @@
         <li><a href="manage-bookings.php">Manage Bookings</a></li>
         <li><a href="feedback.php">Feedback & Suggestions</a></li>
         <li><a href="manage-services.php">Manage Services</a></li>
-        <li><a href="logout.php">Logout</a></li>
+        <li><a href="../auth/logout.php">Logout</a></li>
     </ul>
 </aside>
