@@ -11,7 +11,7 @@ include('../includes/config.php');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="stylesheet" href="../client/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>

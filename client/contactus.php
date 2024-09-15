@@ -48,81 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us</title>
-    <link rel="stylesheet" href="../client/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <style>
-    /* Contact Us */
 
-.contact-container {
-    
-    display: flex;
-    background-color: #fff;
-    width: 100%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top:50px;
-}
-
-.contact-form {
-    flex: 1;
-    padding: 40px;
-    
-}
-
-.contact-form h2 {
-    margin: 0 0 10px;
-    font-size: 44px;
-    font-weight: bold;
-    color: #333;
-    text-align: left;
-}
-
-.contact-form p {
-    margin: 0 0 20px;
-    color: #666;
-    text-align:left;
-}
-
-.contact-form input,
-.contact-form textarea {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.contact-form button {
-    width: 100%;
-    padding: 15px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.contact-form button:hover {
-    background-color: #45a049;
-}
-
-.contact-image {
-    flex: 1;
-}
-
-.contact-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.contact-text-wrapper{
-    border-left: 5px solid #7AB730;
-    padding-left: 20px;
-    margin-bottom: 30px;
-}
 </style>
 <body>
     <div class="contact-container">

@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $profile_picture_name = $user['profile_picture']; // Default to current picture
 
     if (!empty($profile_picture['name'])) {
-        $target_dir = "../admin/uploads";
-        $profile_picture_name = $user_id . '_' . basename($profile_picture['name']);
+        $target_dir = "../admin/uploads/";
+        $profile_picture_name = $customer_id . '_' . basename($profile_picture['name']);
         $target_file = $target_dir . $profile_picture_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -85,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "Failed to update profile.";
     }
+    
    
     $stmt->close();
     $conn->close();
@@ -97,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
-    <link rel="stylesheet" href="../dashboard/styles.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="../css/styles.css"> <!-- Link to the CSS file -->
 </head>
 <body>
     <h1>My Profile</h1>
@@ -124,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="profile_picture">Profile Picture:</label>
         <?php if ($user['profile_picture']): ?>
-            <img src="../admin/uploads<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" style="max-width: 150px;">
+            <img src="../admin/uploads/<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Profile Picture" style="max-width: 150px;">
         <?php endif; ?>
         <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
 

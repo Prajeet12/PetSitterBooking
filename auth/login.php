@@ -46,47 +46,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../client/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <style>
-      body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Login css */
 </style>
+
 <body>
-    <div class="login-container">
-        <h2>Log In</h2>
-        <!-- Conditionally display the error message -->
-        <?php if (!empty($login_error)) : ?>
+    <div class="log-container">
+        <!-- Login Container on the Left -->
+        <div class="login-container">
+            <h2>Log In</h2>
+            <?php if (!empty($login_error)) : ?>
             <div class="error-message">
                 <?php echo htmlspecialchars($login_error); ?>
             </div>
-        <?php endif; ?>
-        <form action="login.php" method="post">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
-            <button type="submit">Log In</button>
-        </form>
-        <p><a href="forgot_password.php">Forgot Password?</a></p>
-        <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
+            <?php endif; ?>
+            <form action="login.php" method="post">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
+                <button type="submit">Log In</button>
+            </form>
+            <p><a href="forgot_password.php">Forgot Password?</a></p>
+            <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
+        </div>
+
+        <!-- Image on the Right -->
+        <div class="image-container">
+
+        </div>
     </div>
 </body>
+
 </html>
-
-
-
-

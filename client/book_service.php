@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Book Service</title>
-    <link rel="stylesheet" href="../client/styles.css"> <!-- Link to your external CSS file if any -->
+    <link rel="stylesheet" href="../css/styles.css"> <!-- Link to your external CSS file if any -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         button {
             padding: 10px 20px;
-            background-color: #76b852;
+            background-color: #007e9b;
             color: white;
             font-weight: bold;
             border: none;
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         button:hover {
-            background-color: #669940;
+            background-color: #007e9b;
         }
     </style>
 </head>

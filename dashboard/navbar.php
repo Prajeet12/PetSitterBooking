@@ -16,7 +16,7 @@
 }
 
 nav {
-    background-color: #218838;
+    background-color: #005569 ;
     
     color: white;
     padding: 20px ;
@@ -37,8 +37,7 @@ nav {
 
 .nav-link {
     color: white;
-    text-decoration: none;
-   
+    text-decoration: none; 
     transition: background-color 0.3s;
 }
 
@@ -66,6 +65,7 @@ nav {
     display: block;
 }
 
+
 .profile-dropdown-content a:hover {
     background-color: #f1f1f1;
 }
@@ -75,7 +75,7 @@ nav {
 }
 
 .profile-dropdown:hover .nav-link {
-    background-color: #575757;
+    background-color: #f1f1f1;
     border-radius: 5px;
 }
 
@@ -93,22 +93,92 @@ nav {
 
 .logout-button {
     padding: 10px 20px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    background-color: 
+    /* Contact Us */
+
+    .contact-container {
+    
+        display: flex;
+        background-color: #ffffff00;
+        width: 100%;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top:50px;
+    }
+    
+    .contact-form {
+        flex: 1;
+        padding: 40px;
+        
+    }
+    
+    .contact-form h2 {
+        margin: 0 0 10px;
+        font-size: 44px;
+        font-weight: bold;
+        color: #333;
+        text-align: left;
+    }
+    
+    .contact-form p {
+        margin: 0 0 20px;
+        color: #666;
+        text-align:left;
+    }
+    
+    .contact-form input,
+    .contact-form textarea {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    .contact-form button {
+        width: 100%;
+        padding: 15px;
+        background-color: #005569;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    
+    .contact-form button:hover {
+        background-color: #45a049;
+    }
+    
+    .contact-image {
+        flex: 1;
+    }
+    
+    .contact-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .contact-text-wrapper{
+        border-left: 5px solid #7AB730;
+        padding-left: 20px;
+        margin-bottom: 30px;
+    };
+   
 }
 
 .logout-button:hover {
     background-color: #d32f2f;
 }
 
+
+
 </style>
 <body>
     <nav>
-        <div class="nav-brand">Dashboard</div>
+        <div class="nav-brand"> <a href="../dashboard/profile.php" style= "font-size: 34px">Dashboard</a></div>
         <div class="nav-links">
             <a href="../client/index.php" class="nav-link">Home</a>
             <a href="../client/services.php" class="nav-link">Services</a>

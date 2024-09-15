@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'prajeetsth3@gmail.com';  // Replace with your email
-        $mail->Password   = 'fptf jkfu ewki ojvs';   // Replace with your email password
+        $mail->Password   = 'vcdh yglr kzas aerl';   // Replace with your email password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
@@ -53,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $mail->send();
         $message = 'Password reset link has been sent.';
+        
     } catch (Exception $e) {
         $message = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
@@ -66,33 +67,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
-    .login-container {
-        width: 300px;
-        margin: auto;
+      .login-container {
+        width: 600px;
+        margin: 200px 0 0 500px;
         padding: 20px;
         border: 1px solid #ddd;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+      }
 
-    .message {
+      .message {
         margin-bottom: 20px;
         padding: 10px;
         border-radius: 5px;
-    }
+      }
 
-    .success {
+      .success {
         background-color: #4caf50;
         color: #fff;
-    }
+      }
 
-    .error {
+      .error {
         background-color: #f44336;
         color: #fff;
-    }
+      }
     </style>
+    
 </head>
 
 <body>
@@ -102,6 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="message <?php echo strpos($message, 'could not be sent') !== false ? 'error' : 'success'; ?>">
             <?php echo $message; ?>
         </div>
+        <?php if (strpos($message, 'Password reset link has been sent') !== false): ?>
+        
+        <?php endif; ?>
         <?php endif; ?>
         <form action="forgot_password.php" method="post">
             <label for="email">Enter your email address:</label>

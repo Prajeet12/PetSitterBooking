@@ -22,30 +22,9 @@ if (!$services_result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Services</title>
-    <link rel="stylesheet" href="../client/styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<style>
-/* Add styling for the "Book Now" button */
-.book-now {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #76b852;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-.book-now:hover {
-    background-color: #669940;
-}
-p {
-    text-align: left;
-    margin-top: 10px;
-}
-</style>
 
 <body>
 
