@@ -40,11 +40,6 @@ if (!$services_result) {
     </div>
     <!-- Hero End -->
 
-    
-
-   
-
-
 </body>
 
 </html>
